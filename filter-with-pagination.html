@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Filter</title>
+
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.paginate.css">
+
+  <style type="text/css">
+    #item-wrapper {
+ width:250px;   
+ margin:30px 0 0 30px;
+}
+.items li {
+ font-family:arial;
+font-size:13px;
+ background-color:#ccc;
+margin-bottom:1px; 
+padding:5px;    
+}
+#portfolio li
+{
+  height: 100px;
+  width: 100px;
+   background-color:#999;
+   margin-bottom: 20px;
+}
+#portfolio li.hidden
+{
+  display: none ;
+}
+
+
+.ctrl-nav {
+   
+    padding:5px;
+    overflow:hidden;
+}
+.ctrl-nav a {
+    font-family:arial;
+font-size:13px;
+    padding:5px 10px;
+    color:#fff;
+}
+.ctrl-nav a#prev{
+ float:left;   
+}
+.ctrl-nav a#next{
+ float:right;   
+}
+
+  </style>
+
+  </head>
+  <body>
+   
+<ul id="filter">
+ <li class="current"> <a href="#">ALL</a></li>
+
+  <li><a href="#">Design</a></li>
+  <li><a href="#">Development</a></li>
+  <li><a href="#">CMS</a></li>
+  <li><a href="#">Integration</a></li>
+  <li><a href="#">Information Architecture</a></li>
+</ul>
+
+<ul id="portfolio">
+  <li class="cms integration all">
+    <a href="#">A List Apart</a>
+  </li>
+  <li class="integration design all">
+    <a href="#">Apple</a>
+  </li>
+    <li class="integration design all">
+    <a href="#">Apple1</a>
+  </li>
+    <li class="integration design all">
+    <a href="#">Apple2</a>
+  </li>
+    <li class="integration design all">
+    <a href="#">Apple3</a>
+  </li>
+    <li class="integration design all">
+    <a href="#">Apple4</a>
+  </li>
+    <li class="integration design all">
+    <a href="#">Apple</a>
+  </li>
+  <li class="design development all">
+    <a href="#">CNN</a>
+  </li>
+  <li class="cms all">
+    <a href="#">Digg</a>
+  </li>
+  <li class="design cms integration all">
+    <a href="#">ESPN</a>
+  </li>
+  <li class="design integration all">
+    <a href="#">Facebook</a>
+  </li>
+  <li class="cms information-architecture all">
+    <a href="#">Google</a>
+  </li>
+  <li class="integration development all">
+    <a href="#">Netflix</a>
+  </li>
+  <li class="information-architecture all">
+    <a href="#">NETTUTS</a>
+  </li>
+  <li class="design information-architecture cms all">
+    <a href="#">Twitter</a>
+  </li>
+  <li class="development all">
+    <a href="#">White House</a>
+  </li>
+  <li class="cms design all">
+    <a href="#">YouTube</a>
+  </li>
+</ul>
+
+<ul id="pagination-container"></ul>
+
+</div>
+
+
+
+
+    <script src="js/jquery.min.js"></script>
+     <script src="js/jquery.simplePagination.js"></script>
+
+
+    <script type="text/javascript">
+
+function pagination(id){
+      var items = $(id);
+    var numItems = items.length;
+    var perPage = 4;
+
+    items.slice(perPage).hide();
+
+    $('#pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
+    });
+}
+$(document).ready(function() {
+  $('ul#filter a').click(function() {
+    $(this).css('outline','none');
+    $('ul#filter .current').removeClass('current');
+    $(this).parent().addClass('current');
+    
+    var filterVal = $(this).text().toLowerCase().replace(' ','-');
+        
+    if(filterVal == 'all') {
+      $('ul#portfolio li.hidden').fadeIn().removeClass('hidden');
+    } else {
+      $('ul#portfolio li').each(function() {
+        if(!$(this).hasClass(filterVal)) {
+          $(this).fadeOut().addClass('hidden');
+        } else {
+          $(this).fadeIn().removeClass('hidden');
+
+        }
+      });
+    }
+
+     pagination("ul#portfolio li." + filterVal + "");
+    return false;
+  });
+  pagination('#portfolio li');
+     
+});
+     </script>
+  
+ 
+
+  </body>
+</html>
